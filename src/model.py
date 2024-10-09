@@ -1,7 +1,7 @@
 from catboost import CatBoostClassifier
 
 
-model_path = "catboost_model.cbm" 
+model_path = "src/catboost_model.cbm" 
 model = CatBoostClassifier()
 
 print(f"\nLoading the saved model from: {model_path}...")
