@@ -1,30 +1,39 @@
 from catboost import CatBoostClassifier
 
 
+model_path = "catboost_model.cbm" 
+model = CatBoostClassifier()
+
+print(f"\nLoading the saved model from: {model_path}...")
+model.load_model(model_path)
+print("The saved model has been loaded successfully!\n")
+  
+
 # Define the model class.
 class Model:
     
-    model_path = "catboost_model.cbm"  # Class-level attribute for model path.
-    model = None  # Class-level attribute for the model instance.
+    # model_path = "catboost_model.cbm"  # Class-level attribute for model path.
+    # model = None  # Class-level attribute for the model instance.
     
-    def load_model(self):
-        """
-        Load the model from the specified path if it hasn't been loaded already,
-        and print a confirmation message.
-        """
-        
-        if Model.model is None:
+    # def load_model(self):
+    #     """
+    #     Load the model from the specified path if it hasn't been loaded already,
+    #     and print a confirmation message.
+    #     """
             
-            try:
-                print(f"\nLoading the saved model from: {self.model_path}...")
-                Model.model = CatBoostClassifier()
-                Model.model.load_model(self.model_path)
-                print("The saved model has been loaded successfully!\n")
-            except Exception as e:
-                print(f"An error occurred while loading the model: {e}")
+    #     if Model.model is None:
+            
+    #         try:
+    #             print(f"\nLoading the saved model from: {self.model_path}...")
+    #             Model.model = CatBoostClassifier()
+    #             Model.model.load_model(self.model_path)
+    #             print("The saved model has been loaded successfully!\n")
                 
-        else:
-            print("Model is already loaded.\n")
+    #         except Exception as e:
+    #             print(f"An error occurred while loading the model: {e}")
+                
+    #     else:
+    #         print("Model is already loaded.\n")
     
     def prediction(self, input_data):
         """
@@ -39,9 +48,9 @@ class Model:
         try:
             
             # Load model if not already loaded.
-            self.load_model() 
+            # self.load_model() 
             print("\nMaking predictions on the input data...")
-            predictions = Model.model.predict(input_data)
+            predictions = model.predict(input_data)
             
             return predictions
         
@@ -62,9 +71,9 @@ class Model:
         try:
             
             # Load model if not already loaded.
-            self.load_model() 
+            # self.load_model() 
             print("\nMaking prediction probability on the input data...")
-            prediction_proba = Model.model.predict_proba(input_data)
+            prediction_proba = model.predict_proba(input_data)
             
             return prediction_proba
         
