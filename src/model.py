@@ -1,35 +1,31 @@
 from catboost import CatBoostClassifier
 
 
-# Define the Model class
+# Define the model class.
 class Model:
     
-    def __init__(self):
-        """
-        Initialize the model class by defining the model path and loading the pre-trained CatBoost model.
-        """
-        # Define the path to the saved CatBoost model file.
-        self.model_path = "catboost_model.cbm"
-        
-        # Create an instance of the CatBoostClassifier model.
-        print("Creating a new instance of the CatBoost model...")
-        self.model = CatBoostClassifier()
-        
-        # Load the model during initialization.
-        self.load_model()
-
+    model_path = "catboost_model.cbm"  # Class-level attribute for model path.
+    model = None  # Class-level attribute for the model instance.
+    
     def load_model(self):
         """
-        Load the model from the specified path and print a confirmation message.
+        Load the model from the specified path if it hasn't been loaded already,
+        and print a confirmation message.
         """
-        try:
-            print(f"\nLoading the saved model from: {self.model_path}...")
-            self.model.load_model(self.model_path)
-            print("The saved model has been loaded successfully!\n")
+        
+        if Model.model is None:
             
-        except Exception as e:
-            print(f"An error occurred while loading the model: {e}")
-
+            try:
+                print(f"\nLoading the saved model from: {self.model_path}...")
+                Model.model = CatBoostClassifier()
+                Model.model.load_model(self.model_path)
+                print("The saved model has been loaded successfully!\n")
+            except Exception as e:
+                print(f"An error occurred while loading the model: {e}")
+                
+        else:
+            print("Model is already loaded.\n")
+    
     def prediction(self, input_data):
         """
         Use the loaded model to make predictions on the given input data.
@@ -41,17 +37,20 @@ class Model:
             The predicted output based on the input data.
         """
         try:
+            
+            # Load model if not already loaded.
+            self.load_model() 
             print("\nMaking predictions on the input data...")
-            predictions = self.model.predict(data=input_data)
-      
+            predictions = Model.model.predict(input_data)
+            
             return predictions
         
         except Exception as e:
             print(f"An error occurred while making predictions: {e}")
-
+    
     def prediction_probability(self, input_data):
         """
-        Use the loaded model to make prediction probability on the given input data.
+        Use the loaded model to calculate prediction probability on the given input data.
         
         Args:
             input_data: The user's input data.
@@ -59,10 +58,14 @@ class Model:
         Returns:
             The probability output based on the input data.
         """
-        try:
-            print("\nMaking prediction probability on the input data...")
-            prediction_proba = self.model.predict_proba(input_data)
         
+        try:
+            
+            # Load model if not already loaded.
+            self.load_model() 
+            print("\nMaking prediction probability on the input data...")
+            prediction_proba = Model.model.predict_proba(input_data)
+            
             return prediction_proba
         
         except Exception as e:
