@@ -62,9 +62,7 @@ if st.button("Make Prediction"):
             
         elif predictions[0] == 0:
             st.write("The student is likely to fail.")
-            
-            # Display prediction probabilities.
-            st.write(f"Prediction Probabilities: {probability[0]}")
+        
             
             # Create a DataFrame for the bar chart.
             prob_df = pd.DataFrame({
